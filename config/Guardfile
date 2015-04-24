@@ -1,0 +1,37 @@
+load './app.rb'
+
+module ::Guard
+  class Vippymud < Plugin
+    def start
+      puts "Starting VippyMUD on port #{port}"
+      @server = VippyMUD.new(port)
+      @server.start
+    end
+
+    def stop
+      @server.stop
+    end
+
+    def reload
+      stop
+      start
+    end
+
+    def run_on_modifications(paths)
+      paths.each do |path|
+        load path
+      end
+      reload
+    end
+
+    private
+
+    def port
+      options.fetch(:port){8080}
+    end
+  end
+end
+
+guard :vippymud do
+  watch(%r{\.rb})
+end
