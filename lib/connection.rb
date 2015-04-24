@@ -4,7 +4,9 @@ module VippyMUD
   class Connection
     def initialize(client)
       @client = client
-      @client.puts "hej :) welcome to VippyMUD! :3!".colorize(:light_blue)
+      @client.print "hej! :) welcome to "
+      @client.print "VippyMUD".colorize(:light_blue).on_white.blink
+      @client.puts "! :3!"
       @client.close
     end
   end
