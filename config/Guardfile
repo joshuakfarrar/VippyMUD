@@ -31,6 +31,6 @@ module ::Guard
 end
 
 guard :vippymud do
-  load './app.rb'
+  load './lib/server.rb'
   watch(%r{\.rb})
 end
