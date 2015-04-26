@@ -13,8 +13,17 @@ module VippyMUD
       def ask_for_username
         @client.print greeting
 
+        encoding_options = {
+          :invalid           => :replace,  # Replace invalid byte sequences
+          :undef             => :replace,  # Replace anything not defined in ASCII
+          :replace           => '',        # Use a blank for those replacements
+          :universal_newline => true       # Always break lines with \n
+        }
+
         while line = @client.gets.strip
-          if line.bytes == [255, 244, 255, 253, 6] # ctrl-c
+          line = line.encode(Encoding.find('ASCII'), encoding_options)
+          puts line.bytes
+          if line.bytes.last == 0x6 # ctrl-c
             break
           end
 
