@@ -13,10 +13,6 @@ module VippyMUD
       case @client.state
       when :not_logged_in
         VippyMUD::State::Login.new(@client)
-        # VippyMUD::States::Playing.new(@client)
-      # else
-        # puts "logging in.."
-        # VippyMUD::States::Login.new(@client)
       end
     end
   end

@@ -5,12 +5,13 @@ module VippyMUD
     class Login
       def initialize(client)
         @client = client
+        @greeted = false
 
         ask_for_username
       end
 
       def ask_for_username
-        @client.print 'By what name are you known (or "new" to create a new character): '
+        @client.print greeting
 
         while line = @client.gets.strip
           if line.bytes == [255, 244, 255, 253, 6] # ctrl-c
@@ -25,13 +26,29 @@ module VippyMUD
             VippyMUD::State::NewCharacter.new
             break
           else
-            @client.puts "Welcome back, #{line}!"
-            break
+            character = Character.find_by_name(line.capitalize)
+            if character
+              @client.puts "\nWelcome back, #{character[:name]}!"
+              break
+            else
+              @client.print "\nNo such player exists.\n"
+              ask_for_username
+            end
           end
         end
 
         @client.close
       end
+
+      def greeting
+        if !@greeted
+          @greeted = true
+          'By what name are you known (or "new" to create a new character): '
+        else
+          'Name: '
+        end
+      end
+
     end
   end
 end
