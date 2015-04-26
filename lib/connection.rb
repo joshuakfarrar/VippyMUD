@@ -1,13 +1,23 @@
 require 'colorize'
 
+require './lib/client'
+
+require './lib/states/playing'
+require './lib/states/login'
+
 module VippyMUD
   class Connection
     def initialize(client)
-      @client = client
-      @client.print "hej! :) welcome to "
-      @client.print "VippyMUD".colorize(:light_blue).on_white.blink
-      @client.puts "! :3!"
-      @client.close
+      @client = VippyMUD::Client.new(client)
+
+      case @client.state
+      when :not_logged_in
+        VippyMUD::State::Login.new(@client)
+        # VippyMUD::States::Playing.new(@client)
+      # else
+        # puts "logging in.."
+        # VippyMUD::States::Login.new(@client)
+      end
     end
   end
 end
