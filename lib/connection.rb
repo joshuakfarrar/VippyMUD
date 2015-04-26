@@ -2,8 +2,9 @@ require 'colorize'
 
 require './lib/client'
 
-require './lib/states/playing'
 require './lib/states/login'
+require './lib/states/new_character'
+require './lib/states/playing'
 
 module VippyMUD
   class Connection

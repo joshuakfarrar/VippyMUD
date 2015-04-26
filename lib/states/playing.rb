@@ -3,6 +3,7 @@ module VippyMUD
     class Playing
       def initialize(client)
         @client = client
+        @client.state = :playing
 
         @client.puts "\nWelcome back, #{@client.character[:name]}!\n"
 

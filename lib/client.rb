@@ -4,13 +4,9 @@ module VippyMUD
 
     def initialize(client)
       @client = client
-      @state = check_state
+      @state ||= :not_logged_in
 
       @character = nil
-    end
-
-    def check_state
-      :not_logged_in
     end
 
     def close

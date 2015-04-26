@@ -1,5 +1,3 @@
-require './lib/states/new_character'
-
 module VippyMUD
   module State
     class Login
