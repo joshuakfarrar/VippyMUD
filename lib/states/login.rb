@@ -22,7 +22,6 @@ module VippyMUD
 
         while line = @client.gets.strip
           line = line.encode(Encoding.find('ASCII'), encoding_options)
-          puts line.bytes
           if line.bytes.last == 0x6 # ctrl-c
             break
           end
@@ -31,9 +30,8 @@ module VippyMUD
           when ''
             ask_for_username
           when 'new'
-            @client.puts "Welcome young Padawan!"
-            VippyMUD::State::NewCharacter.new
-            break
+            VippyMUD::State::NewCharacter.new(@client)
+            return
           else
             character = Character.find_by_name(line.capitalize)
             if character
@@ -64,7 +62,9 @@ module VippyMUD
         password = @client.gets.strip
 
         if character.password_is password
-          @client.puts "\nWelcome back, #{character[:name]}!"
+          @client.character = character
+          VippyMUD::State::Playing.new(@client)
+          return
         else
           @client.puts "\nInvalid password."
         end

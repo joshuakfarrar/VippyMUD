@@ -1,10 +1,12 @@
 module VippyMUD
   class Client
-    attr_accessor :client, :state
+    attr_accessor :client, :state, :character
 
     def initialize(client)
       @client = client
       @state = check_state
+
+      @character = nil
     end
 
     def check_state
