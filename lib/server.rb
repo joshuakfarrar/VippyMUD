@@ -12,7 +12,7 @@ module VippyMUD
       @server = TCPServer.new @port
       @connection_thread = Thread.new do
         while client = @server.accept
-          @connections = VippyMUD::Connection.new(client)
+          @connections << VippyMUD::Connection.new(client)
         end
       end
     end

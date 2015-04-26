@@ -28,8 +28,8 @@ module VippyMUD
           else
             character = Character.find_by_name(line.capitalize)
             if character
-              @client.puts "\nWelcome back, #{character[:name]}!"
-              break
+              ask_for_password(character)
+              return
             else
               @client.print "\nNo such player exists.\n"
               ask_for_username
@@ -49,6 +49,19 @@ module VippyMUD
         end
       end
 
+      def ask_for_password(character)
+        @client.print 'Password: '
+
+        password = @client.gets.strip
+
+        if character.password_is password
+          @client.puts "\nWelcome back, #{character[:name]}!"
+        else
+          @client.puts "\nInvalid password."
+        end
+
+        @client.close
+      end
     end
   end
 end
